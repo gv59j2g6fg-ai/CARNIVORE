@@ -1,7 +1,7 @@
 {
   "name": "Carnivore Tracker",
   "short_name": "Carnivore",
-  "start_url": "./",
+  "start_url": "./?b=v7-20260201-142226-pb3ec1",
   "scope": "./",
   "display": "standalone",
   "background_color": "#0b0f14",

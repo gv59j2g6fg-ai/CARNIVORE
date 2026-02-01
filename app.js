@@ -771,7 +771,7 @@ function renderFoodRows() {
 
     tr.appendChild(wrapCell(sel));
     tr.appendChild(wrapCell(grams));
-    tr.appendChild(kcal);
+    tr.appendChild(wrapCell(kcal));
     tr.appendChild(p);
     tr.appendChild(f);
     tr.appendChild(c);
@@ -790,10 +790,7 @@ function renderDrinkRows() {
 
   dayDraft.drinkRows.forEach((row, idx) => {
     const tr = document.createElement("div");
-    tr.className = "trow";
-    tr.style.gridTemplateColumns = "minmax(180px, 1.5fr) minmax(140px, .95fr) minmax(150px, 1.15fr) 90px 100px 54px";
-
-    const sel = document.createElement("select");
+    tr.className = "trow";    const sel = document.createElement("select");
     sel.dataset.kind = "drink";
     sel.dataset.idx = String(idx);
     fillDrinkSelect(sel, row.drink);
@@ -881,8 +878,8 @@ function renderDrinkRows() {
     tr.appendChild(wrapCell(sel));
     tr.appendChild(wrapCell(unit));
     tr.appendChild(wrapCell(amountWrap));
-    tr.appendChild(kcal);
-    tr.appendChild(carb);
+    tr.appendChild(wrapCell(kcal));
+    tr.appendChild(wrapCell(carb));
     tr.appendChild(wrapCell(del));
 
     wrap.appendChild(tr);
