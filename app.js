@@ -142,11 +142,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // Date
   $("date").value = dayDraft.date || todayISO();
   $("date").addEventListener("change", () => {
-    dayDraft.date = $("date").value || todayISO();
+    const d = $("date").value || todayISO();
+    if (history[d]) {
+      loadDay(d);
+      return;
+    }
+    // No saved day: start clean for selected date
+    dayDraft = { date: d, foodRows: [], drinkRows: [] };
+    $("date").value = d;
+    renderFoodRows();
+    renderDrinkRows();
     persistDraft();
+    recalcTotals();
+    toast("No saved data for this date");
   });
 
-  // Targets fill
+// Targets fill
   applyTargetsToUI();
 
   // Targets events (CHANGE/BLUR only)
