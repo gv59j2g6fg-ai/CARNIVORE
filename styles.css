@@ -348,3 +348,41 @@ input[type="number"]::-webkit-outer-spin-button{
   /* Buttons row inside alcohol section */
   .rowBtns { gap: 12px; }
 }
+
+
+/* === V14 iPad steppers: show +/- only on iOS (Build: v14-20260201-152322-l16ich) === */
+.amtWrap{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.amtWrap input{
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align:center;
+}
+/* Hidden by default (desktop shows native spinners) */
+.amtStep{ display:none; }
+
+/* iOS Safari / iPadOS: show our steppers because native arrows are not shown */
+@supports (-webkit-touch-callout: none) {
+  .amtStep{
+    display:inline-grid;
+    place-items:center;
+    width:34px;
+    height:34px;
+    border-radius:12px;
+    border:1px solid rgba(34,50,71,.9);
+    background:rgba(12,20,29,.75);
+    color:#fff;
+    font-weight:900;
+    line-height:1;
+    flex: 0 0 auto;
+  }
+  /* Hide any attempted native spinners (they usually don't show anyway) */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

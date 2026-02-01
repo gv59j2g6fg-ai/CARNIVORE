@@ -830,7 +830,36 @@ function renderDrinkRows() {
     amt.dataset.kind = "amount";
     amt.dataset.idx = String(idx);
 
-    const kcal = document.createElement("div");
+    
+    // iOS Safari doesn't show native number spinners. Add tiny +/- steppers (shown on iOS only via CSS).
+    const amtWrap = document.createElement("div");
+    amtWrap.className = "amtWrap";
+
+    const btnMinus = document.createElement("button");
+    btnMinus.type = "button";
+    btnMinus.className = "amtStep amtMinus";
+    btnMinus.textContent = "−";
+
+    const btnPlus = document.createElement("button");
+    btnPlus.type = "button";
+    btnPlus.className = "amtStep amtPlus";
+    btnPlus.textContent = "+";
+
+    // Put input in the middle
+    amtWrap.appendChild(btnMinus);
+    amtWrap.appendChild(amt);
+    amtWrap.appendChild(btnPlus);
+
+    const bump = (delta) => {
+      const cur = Number(amt.value || 0);
+      const next = Math.max(0, cur + delta);
+      amt.value = String(next);
+      amt.dispatchEvent(new Event("input", { bubbles: true }));
+      amt.dispatchEvent(new Event("change", { bubbles: true }));
+    };
+    btnMinus.addEventListener("click", () => bump(-1));
+    btnPlus.addEventListener("click", () => bump(1));
+const kcal = document.createElement("div");
     kcal.className = "cell right";
     kcal.id = `dk_${idx}`;
 
@@ -860,7 +889,7 @@ function renderDrinkRows() {
 
     tr.appendChild(wrapCell(sel));
     tr.appendChild(wrapCell(unit));
-    tr.appendChild(wrapCell(amt));
+    tr.appendChild(wrapCell(amtWrap));
     tr.appendChild(wrapCell(kcal));
     tr.appendChild(wrapCell(carb));
     tr.appendChild(wrapCell(del));
