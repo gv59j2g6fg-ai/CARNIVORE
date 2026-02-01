@@ -88,12 +88,6 @@ input:focus,select:focus{border-color:rgba(42,140,255,.6)}
   gap:0;
   align-items:center;
 }
-
-/* Drinks table: 6 columns (Drink | Unit | Amount | kcal | Carbs | delete) */
-.table.drinks .thead,
-.table.drinks .trow{
-  grid-template-columns: 1.6fr .9fr .9fr .7fr .7fr .35fr;
-}
 .thead{
   background:#0b1320;
   color:var(--muted);
@@ -187,4 +181,20 @@ input:focus,select:focus{border-color:rgba(42,140,255,.6)}
   background: rgba(255,255,255,0.06);
   font-weight: 700;
   letter-spacing: 0.08em;
+}
+
+
+/* Drinks layout */
+#drinkRows .trow,
+#drinkRows.trow{
+  grid-template-columns: 1.6fr .9fr .9fr .7fr .7fr .35fr;
+}
+/* Make native controls (select/number steppers) readable on dark UI */
+input, select{
+  color-scheme: dark;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button{
+  filter: invert(1);
+  opacity: 0.9;
 }
