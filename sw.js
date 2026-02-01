@@ -1,33 +1,36 @@
-
-const CACHE = "carnivore-v19-cache";
+const CACHE = "carnivore-v6";
 const ASSETS = [
+  ./icon-512.png,
+  ./icon-192.png,
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
   "./manifest.webmanifest",
-  "./icon-192.png",
-  "./icon-512.png",
+  "./apple-touch-icon.png",
   "./apple-touch-icon-180x180.png"
 ];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
+  e.waitUntil(
+    caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener("activate", (e) => {
   e.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.map(k => (k === CACHE ? null : caches.delete(k)))))
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+    ).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener("fetch", (e) => {
-  const req = e.request;
   e.respondWith(
-    caches.match(req).then((cached) => cached || fetch(req).then((res) => {
+    caches.match(e.request).then((cached) => cached || fetch(e.request).then((res) => {
       const copy = res.clone();
-      caches.open(CACHE).then((c) => c.put(req, copy)).catch(()=>{});
+      caches.open(CACHE).then(cache => cache.put(e.request, copy)).catch(()=>{});
       return res;
-    }).catch(()=>cached))
+    }).catch(() => cached))
   );
 });
