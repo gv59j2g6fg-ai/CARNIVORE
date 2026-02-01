@@ -323,3 +323,28 @@ input[type="number"]::-webkit-outer-spin-button{
   opacity: 1;
 }
 
+
+
+/* === V12 FIT: shrink table columns a tad so right panel fits (Build: v12-20260201-150332-luzgcn) === */
+@media (min-width: 900px) {
+  /* Slightly reduce card padding/gaps to reclaim width */
+  .card { padding: 18px; }
+  .grid { gap: 16px; }
+
+  /* Food table: reduce Food column + overall gap */
+  .table.food .thead,
+  #foodRows .trow {
+    grid-template-columns: minmax(160px, 1.45fr) minmax(120px, .9fr) 86px 76px 76px 76px 48px;
+    column-gap: 12px;
+  }
+
+  /* Drinks table: reduce Drink column + keep alignment */
+  .table.drinks .thead,
+  #drinkRows .trow {
+    grid-template-columns: minmax(150px, 1.25fr) minmax(120px, .9fr) minmax(140px, 1fr) 86px 96px 48px;
+    column-gap: 12px;
+  }
+
+  /* Buttons row inside alcohol section */
+  .rowBtns { gap: 12px; }
+}
