@@ -318,7 +318,7 @@ function saveCurrentDay() {
   const payload = {
     date: d,
     foodRows: dayDraft.foodRows.map(r => ({ food: r.food || "", grams: Number(r.grams) || 0 })),
-    drinkRows: dayDraft.drinkRows.map(r => ({ drink: r.drink || "", ml: Number(r.ml) || 0 })),
+    drinkRows: dayDraft.drinkRows.map(r => ({ drink: r.drink || "", unit: (r.unit || "ml"), amount: Number(r.amount) || 0 })),
     targets: readComputedTargets()
   };
 
@@ -389,7 +389,7 @@ function loadDay(date) {
   dayDraft = {
     date: item.date,
     foodRows: (item.foodRows || []).map(r => ({ food: r.food || "", grams: Number(r.grams) || 0 })),
-    drinkRows: (item.drinkRows || []).map(r => ({ drink: r.drink || "", ml: Number(r.ml) || 0 }))
+    drinkRows: (item.drinkRows || []).map(normalizeDrinkRow)
   };
 
   $("date").value = dayDraft.date;
@@ -1021,7 +1021,7 @@ function updateRowOutputs() {
 
   dayDraft.drinkRows.forEach((r, i) => {
     const d = drinks.find(x => x.name === r.drink);
-    const ml = Number(r.ml) || 0;
+    const ml = drinkMlFromRow(r);
     const mult = ml / 100;
 
     const kcal = d ? d.kcal * mult : 0;

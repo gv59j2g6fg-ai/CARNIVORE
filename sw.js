@@ -1,4 +1,4 @@
-const CACHE = "carnivore-v16-20260201-154121-d4ptwb";
+const CACHE = "carnivore-v17-20260204-alc-savefix";
 const ASSETS = [
   "./",
   "./index.html",
