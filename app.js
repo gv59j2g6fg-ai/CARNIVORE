@@ -155,6 +155,17 @@ let history = loadJSON(LS.HISTORY, null) || {}; // keyed by date
 let weightHistory = loadJSON(LS.WEIGHT_HISTORY, null) || {}; // keyed by date
 let plannedDays = loadJSON(LS.PLANNED_DAYS, null) || {}; // selected food plans, keyed by date
 
+// Upgrade plans made with the earlier one-day carry-over version so they keep repeating.
+if (!repeatingFoodPlan.length) {
+  const legacyDates = Object.keys(plannedDays).sort();
+  const legacyDate = legacyDates[legacyDates.length - 1];
+  const legacyRows = legacyDate ? plannedDays[legacyDate]?.foodRows : null;
+  if (Array.isArray(legacyRows) && legacyRows.length) {
+    repeatingFoodPlan = legacyRows.map(r => ({ food: r.food || "", grams: Number(r.grams) || 0 }));
+    saveJSON(LS.REPEATING_FOOD_PLAN, repeatingFoodPlan);
+  }
+}
+
 function selectedDate() {
   return $("date")?.value || dayDraft.date || todayISO();
 }

@@ -1,9 +1,9 @@
-const CACHE = "carnivore-v19-20260907-repeating-food-plan";
+const CACHE = "carnivore-v20-20260907-repeating-food-plan";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css",
-  "./app.js",
+  "./styles.css?v=20",
+  "./app.js?v=20",
   "./manifest.webmanifest",
   "./apple-touch-icon.png",
   "./apple-touch-icon-180x180.png",
