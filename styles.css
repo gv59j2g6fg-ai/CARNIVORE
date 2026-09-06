@@ -1,0 +1,420 @@
+:root{
+  --bg:#0b0f14;
+  --card:#0f1722;
+  --muted:#97a3b3;
+  --text:#e8eef7;
+  --line:#1b2635;
+  --btn:#162234;
+  --btn2:#1a2b42;
+  --danger:#3a1b1b;
+  --good:#15321c;
+  --accent:#2a8cff;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial}
+h1,h2{margin:0 0 8px 0}
+h1{font-size:20px}
+h2{font-size:16px;margin-top:18px}
+.sub,.muted{color:var(--muted);font-size:12px;line-height:1.35}
+.small{color:var(--muted);font-size:11px;margin-bottom:8px}
+
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 14px;border-bottom:1px solid var(--line);
+  position:sticky;top:0;background:rgba(11,15,20,.92);backdrop-filter: blur(8px);
+}
+
+.pill{
+  font-size:12px;padding:6px 10px;border-radius:999px;background:var(--good);border:1px solid rgba(255,255,255,.08);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: 1.25fr .9fr;
+  gap:12px;
+  padding:12px;
+}
+
+@media (max-width: 980px){
+  .grid{grid-template-columns:1fr}
+}
+
+.card{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;
+  padding:12px;
+}
+
+.row{display:flex;align-items:end}
+.between{justify-content:space-between}
+.gap{gap:10px}
+.grow{flex:1}
+.stack{display:grid;gap:8px;margin-top:10px}
+
+.label{font-size:11px;color:var(--muted);margin-bottom:6px}
+
+input,select{
+  width:100%;
+  background:#0b1320;
+  color:var(--text);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  padding:10px 10px;
+  font-size:14px;
+  outline:none;
+}
+input:focus,select:focus{border-color:rgba(42,140,255,.6)}
+
+.btn{
+  background:var(--btn);
+  color:var(--text);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  padding:10px 12px;
+  font-size:14px;
+  cursor:pointer;
+}
+.btn:hover{background:var(--btn2)}
+.btn.primary{background:rgba(42,140,255,.18);border-color:rgba(42,140,255,.35)}
+.btn.danger{background:rgba(255,80,80,.12);border-color:rgba(255,80,80,.25)}
+.btn.wide{width:100%}
+
+.table{margin-top:8px;border:1px solid rgba(255,255,255,.06);border-radius:12px;overflow:hidden}
+.thead,.trow{
+  display:grid;
+  grid-template-columns: 1.6fr .9fr .6fr .45fr .45fr .45fr .35fr;
+  gap:0;
+  align-items:center;
+}
+.thead{
+  background:#0b1320;
+  color:var(--muted);
+  font-size:12px;
+  padding:8px 10px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.tbody{padding:8px}
+.trow{
+  padding:6px 0;
+  border-bottom:1px dashed rgba(255,255,255,.06);
+}
+.trow:last-child{border-bottom:none}
+.cell{padding:0 6px}
+.cell.right{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.iconBtn{
+  width:36px;height:36px;border-radius:12px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+}
+.iconBtn:hover{background:rgba(255,255,255,.09)}
+
+.carryControls{display:flex;align-items:center;gap:8px}
+.carryControls input[type="checkbox"]{
+  width:22px;height:22px;accent-color:var(--accent);cursor:pointer;
+}
+
+.kpis{
+  margin-top:10px;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:8px;
+}
+@media(max-width:980px){ .kpis{grid-template-columns: repeat(2, 1fr);} }
+
+.kpi{
+  background:#0b1320;border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:10px;
+}
+.kpi .k{color:var(--muted);font-size:11px;margin-bottom:6px}
+.kpi .v{font-size:18px;font-variant-numeric:tabular-nums}
+
+.bars{margin-top:10px;display:grid;gap:10px}
+.barhead{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:6px}
+.track{height:10px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.fill{height:100%;width:0%;background:rgba(42,140,255,.9)}
+
+.targetsBox{
+  margin-top:10px;
+  background:#0b1320;border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:10px;
+}
+.tline{display:flex;justify-content:space-between;margin-top:6px;color:var(--muted)}
+.tline b{color:var(--text)}
+
+.history{margin-top:10px;display:grid;gap:8px}
+.hitem{
+  display:flex;justify-content:space-between;align-items:center;
+  background:#0b1320;border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:10px;gap:10px;
+}
+.hitem .meta{display:flex;flex-direction:column;gap:3px}
+.hitem .meta .d{font-size:13px}
+.hitem .meta .s{font-size:11px;color:var(--muted)}
+.hactions{display:flex;gap:8px}
+
+.list{margin-top:10px;display:grid;gap:8px}
+.litem{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  background:#0b1320;border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:10px;
+}
+.footerNote{margin-top:14px;color:var(--muted);font-size:12px}
+
+
+/* Inline editor rows */
+.editrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.editrow input{flex:1;min-width:120px}
+.lactions{display:flex;gap:8px;align-items:center}
+
+
+/* v5 helpers */
+.row.between{ justify-content: space-between; align-items: center; }
+.pill.small{ font-size: 12px; padding: 3px 8px; border-radius: 999px; }
+
+
+
+/* Alphabet group headers */
+.groupHead{
+  margin: 12px 0 6px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+
+/* Drinks layout */
+/* Make native controls (select/number steppers) readable on dark UI */
+input, select{
+  color-scheme: dark;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button{
+  filter: invert(1);
+  opacity: 0.9;
+}
+
+
+/* Drinks spacing tweak: widen Amount so kcal/carbs align nicely */
+#drinkRows .trow,
+.table.drinks .thead{
+  grid-template-columns: 1.5fr .9fr 1.1fr .7fr .7fr .35fr;
+}
+
+#drinkRows .cell.right{
+  text-align:right;
+  padding-right:6px;
+}
+
+
+/* === FINAL iOS FIX: alcohol alignment + number spinner visibility === */
+.table.drinks .thead,
+#drinkRows .trow{
+  grid-template-columns: 1.45fr 0.95fr 1.25fr 0.65fr 0.65fr 0.35fr;
+}
+
+#drinkRows .cell.right{
+  text-align:right;
+  padding-right:8px;
+}
+
+/* Force iOS number spinner visibility on dark UI */
+#drinkRows input[type="number"]{
+  -webkit-appearance:none;
+  appearance:none;
+  color-scheme:dark;
+}
+
+#drinkRows input[type="number"]::-webkit-inner-spin-button{
+  -webkit-appearance: inner-spin-button;
+  filter: invert(1);
+  opacity: 0.95;
+}
+/* === DRINKS ALIGNMENT V5: account for custom +/- amount control === */
+.table.drinks .thead,
+#drinkRows .trow{
+  grid-template-columns: minmax(180px, 1.45fr) minmax(140px, .95fr) minmax(230px, 1.35fr) 96px 110px 54px;
+  column-gap: 14px;
+}
+
+/* Header alignment */
+.table.drinks .thead > div:nth-child(3){ text-align:center; }
+.table.drinks .thead > div:nth-child(4),
+.table.drinks .thead > div:nth-child(5){
+  text-align:right;
+  padding-right: 10px;
+}
+
+/* Amount control: keep it inside its column and stop it pushing kcal/carbs */
+
+/* Numeric cells */
+#drinkRows .cell.right{
+  text-align:right;
+  padding-right:10px;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* build stamp */
+.build{color:#8aa0b8;font-size:12px;margin-top:6px;}
+
+
+
+
+
+
+/* === FOOD + DRINKS V9: add delete column header cell + align grids (Build: v9-20260201-143733-rminqg) === */
+
+/* Food table (7 cols incl delete) */
+.table.food .thead,
+#foodRows .trow{
+  grid-template-columns: minmax(200px, 1.7fr) minmax(140px, 1fr) 96px 84px 84px 84px 54px;
+  column-gap: 14px;
+}
+
+/* Right-align numeric headers in food */
+.table.food .thead > div:nth-child(3),
+.table.food .thead > div:nth-child(4),
+.table.food .thead > div:nth-child(5),
+.table.food .thead > div:nth-child(6){
+  text-align:right;
+  padding-right:10px;
+}
+
+/* Drinks table (6 cols incl delete) */
+.table.drinks .thead,
+#drinkRows .trow{
+  grid-template-columns: minmax(180px, 1.45fr) minmax(140px, .95fr) minmax(160px, 1.05fr) 96px 110px 54px;
+  column-gap: 14px;
+}
+
+.table.drinks .thead > div:nth-child(4),
+.table.drinks .thead > div:nth-child(5){
+  text-align:right;
+  padding-right:10px;
+}
+
+/* Numeric cells */
+#foodRows .cell.right,
+#drinkRows .cell.right{
+  text-align:right;
+  padding-right:10px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* iOS spinner visibility (best effort) */
+input[type="number"]{
+  color-scheme: dark;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button{
+  filter: invert(1);
+  opacity: .9;
+}
+
+/* === v11 tweaks: make drink amount spinners clearly visible on iOS dark mode === */
+#drinkRows input[type="number"]{
+  color-scheme: dark;
+}
+#drinkRows input[type="number"]::-webkit-inner-spin-button,
+#drinkRows input[type="number"]::-webkit-outer-spin-button{
+  filter: invert(1) brightness(1.8) contrast(1.2);
+  opacity: 1;
+}
+
+
+
+/* === V12 FIT: shrink table columns a tad so right panel fits (Build: v12-20260201-150332-luzgcn) === */
+@media (min-width: 900px) {
+  /* Slightly reduce card padding/gaps to reclaim width */
+  .card { padding: 18px; }
+  .grid { gap: 16px; }
+
+  /* Food table: reduce Food column + overall gap */
+  .table.food .thead,
+  #foodRows .trow {
+    grid-template-columns: minmax(160px, 1.45fr) minmax(120px, .9fr) 86px 76px 76px 76px 48px;
+    column-gap: 12px;
+  }
+
+  /* Drinks table: reduce Drink column + keep alignment */
+  .table.drinks .thead,
+  #drinkRows .trow {
+    grid-template-columns: minmax(150px, 1.25fr) minmax(120px, .9fr) minmax(140px, 1fr) 86px 96px 48px;
+    column-gap: 12px;
+  }
+
+  /* Buttons row inside alcohol section */
+  .rowBtns { gap: 12px; }
+}
+
+
+/* === V14 iPad steppers: show +/- only on iOS (Build: v14-20260201-152322-l16ich) === */
+.amtWrap{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.amtWrap input{
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align:center;
+}
+/* Hidden by default (desktop shows native spinners) */
+.amtStep{ display:none; }
+
+/* iOS Safari / iPadOS: show our steppers because native arrows are not shown */
+@supports (-webkit-touch-callout: none) {
+  .amtStep{
+    display:inline-grid;
+    place-items:center;
+    width:34px;
+    height:34px;
+    border-radius:12px;
+    border:1px solid rgba(34,50,71,.9);
+    background:rgba(12,20,29,.75);
+    color:#fff;
+    font-weight:900;
+    line-height:1;
+    flex: 0 0 auto;
+  }
+  /* Hide any attempted native spinners (they usually don't show anyway) */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+
+/* === V15: mL full-width input, steppers only for Qty units on iOS (Build: v15-20260201-153013-cbc2zx) === */
+.amtWrap.mlOnly { gap: 0; }
+.amtWrap.mlOnly input { width: 100%; text-align: left; padding-left: 14px; }
+
+/* If steps are present, keep input centered */
+.amtWrap.withSteps input { text-align: center; }
+
+/* iOS: show step buttons only when wrapper has withSteps */
+@supports (-webkit-touch-callout: none) {
+  .amtWrap.mlOnly .amtStep { display: none !important; }
+  .amtWrap.withSteps .amtStep { display: inline-grid; }
+}
+
+
+/* === V16: wider Qty input for schooner/bottle counts (Build: v16-20260201-154121-d4ptwb) === */
+.amtWrap.withSteps input {
+  min-width: 70px;
+  width: 70px;
+  text-align: center;
+  font-size: 16px;
+}
+
+
+.chartCard{margin-top:10px;background:#0b1320;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px;}
+#weightChart{width:100%;display:block;border-radius:10px;}
