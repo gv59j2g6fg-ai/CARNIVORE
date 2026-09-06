@@ -10,7 +10,8 @@ const LS = {
   DAY_DRAFT: "ct_day_draft_v1",
   HISTORY: "ct_history_v1",
   WEIGHT_HISTORY: "ct_weight_history_v1",
-  PLANNED_DAYS: "ct_planned_days_v1"
+  PLANNED_DAYS: "ct_planned_days_v1",
+  REPEATING_FOOD_PLAN: "ct_repeating_food_plan_v1"
 };
 
 const $ = (id) => document.getElementById(id);
@@ -33,12 +34,6 @@ function todayISO() {
   const off = d.getTimezoneOffset();
   const local = new Date(d.getTime() - off * 60 * 1000);
   return local.toISOString().slice(0, 10);
-}
-
-function nextDateISO(date) {
-  const d = new Date(`${date}T12:00:00`);
-  d.setDate(d.getDate() + 1);
-  return d.toISOString().slice(0, 10);
 }
 
 const DRINK_UNITS = [
@@ -119,10 +114,17 @@ function defaultDailyFoodRows() {
     .map(name => ({ food: name, grams: 0 }));
 }
 
+function repeatingFoodRows() {
+  if (Array.isArray(repeatingFoodPlan) && repeatingFoodPlan.length) {
+    return repeatingFoodPlan.map(r => ({ food: r.food || "", grams: Number(r.grams) || 0 }));
+  }
+  return defaultDailyFoodRows();
+}
+
 function freshDayDraft(date) {
   return {
     date: date || todayISO(),
-    foodRows: defaultDailyFoodRows(),
+    foodRows: repeatingFoodRows(),
     drinkRows: []
   };
 }
@@ -136,6 +138,7 @@ let drinks = loadJSON(LS.DRINKS, null) || defaultDrinks();
 drinks.sort(nameSorter);
 let drinkEditIndex = -1;
 let targets = loadJSON(LS.TARGETS, null) || defaultTargets();
+let repeatingFoodPlan = loadJSON(LS.REPEATING_FOOD_PLAN, null) || [];
 
 let dayDraft = loadJSON(LS.DAY_DRAFT, null) || freshDayDraft(todayISO());
 
@@ -548,7 +551,7 @@ function saveCurrentDay() {
 }
 
 function openUnsavedDate(date) {
-  const plan = plannedDays[date];
+  const plan = repeatingFoodPlan.length ? { foodRows: repeatingFoodPlan, drinkRows: [] } : plannedDays[date];
   dayDraft = plan ? {
     date,
     foodRows: (plan.foodRows || []).map(r => ({ food: r.food || "", grams: Number(r.grams) || 0 })),
@@ -559,7 +562,7 @@ function openUnsavedDate(date) {
   renderDrinkRows();
   persistDraft();
   recalcTotals();
-  toast(plan ? "Tomorrow's food plan loaded" : "No saved data for this date");
+  toast(plan ? "Repeating food plan loaded" : "No saved data for this date");
 }
 
 function keepSelectedForTomorrow() {
@@ -570,10 +573,9 @@ function keepSelectedForTomorrow() {
 
   if (!selected.length) return toast("Tick the ⤴ beside at least one food");
 
-  const tomorrow = nextDateISO(selectedDate());
-  plannedDays[tomorrow] = { date: tomorrow, foodRows: selected, drinkRows: [] };
-  saveJSON(LS.PLANNED_DAYS, plannedDays);
-  toast(`${selected.length} food${selected.length === 1 ? "" : "s"} planned for ${tomorrow}`);
+  repeatingFoodPlan = selected;
+  saveJSON(LS.REPEATING_FOOD_PLAN, repeatingFoodPlan);
+  toast(`${selected.length} food${selected.length === 1 ? "" : "s"} will repeat each day`);
 }
 
 function renderHistory() {
@@ -1457,7 +1459,8 @@ function exportHistoryJSON() {
     drinks,
     history,
     weightHistory,
-    plannedDays
+    plannedDays,
+    repeatingFoodPlan
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
@@ -1481,7 +1484,7 @@ function importFromFile(file){
       if(!ok) return;
 
       // Accept either full export object or a raw history object
-      let nextTargets = null, nextFoods = null, nextDrinks = null, nextHistory = null, nextWeightHistory = null, nextPlannedDays = null;
+      let nextTargets = null, nextFoods = null, nextDrinks = null, nextHistory = null, nextWeightHistory = null, nextPlannedDays = null, nextRepeatingFoodPlan = null;
 
       if(parsed && typeof parsed === "object" && !Array.isArray(parsed)){
         if(parsed.targets) nextTargets = parsed.targets;
@@ -1490,6 +1493,7 @@ function importFromFile(file){
         if(parsed.history && typeof parsed.history === "object") nextHistory = parsed.history;
         if(parsed.weightHistory && typeof parsed.weightHistory === "object") nextWeightHistory = parsed.weightHistory;
         if(parsed.plannedDays && typeof parsed.plannedDays === "object") nextPlannedDays = parsed.plannedDays;
+        if(Array.isArray(parsed.repeatingFoodPlan)) nextRepeatingFoodPlan = parsed.repeatingFoodPlan;
 
         // If it looks like a raw history map (dates -> payload), accept it
         const keys = Object.keys(parsed);
@@ -1504,6 +1508,7 @@ function importFromFile(file){
       if(nextHistory) history = nextHistory;
       if(nextWeightHistory) weightHistory = nextWeightHistory;
       if(nextPlannedDays) plannedDays = nextPlannedDays;
+      if(nextRepeatingFoodPlan) repeatingFoodPlan = nextRepeatingFoodPlan;
 
       // Persist
       saveJSON(LS.FOODS, foods);
@@ -1512,6 +1517,7 @@ function importFromFile(file){
       saveJSON(LS.HISTORY, history);
       saveJSON(LS.WEIGHT_HISTORY, weightHistory);
       saveJSON(LS.PLANNED_DAYS, plannedDays);
+      saveJSON(LS.REPEATING_FOOD_PLAN, repeatingFoodPlan);
 
       // Refresh UI
       foodEditIndex = -1; drinkEditIndex = -1;
